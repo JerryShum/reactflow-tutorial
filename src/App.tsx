@@ -9,6 +9,7 @@ import '@xyflow/react/dist/style.css';
 import { useFlowStore } from './store';
 import ColorNode from './components/ColorNode';
 import TextNode from './components/TextNode';
+import { useShallow } from 'zustand/shallow';
 
 const nodeTypes = {
    color: ColorNode,
@@ -16,11 +17,17 @@ const nodeTypes = {
 };
 
 function Flow() {
-   const nodes = useFlowStore((state) => state.nodes);
-   const edges = useFlowStore((state) => state.edges);
-   const onNodesChange = useFlowStore((state) => state.onNodesChange);
-   const onEdgesChange = useFlowStore((state) => state.onEdgesChange);
-   const onConnect = useFlowStore((state) => state.onConnect);
+   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
+      useFlowStore(
+         useShallow((state) => ({
+            nodes: state.nodes,
+            edges: state.edges,
+            onNodesChange: state.onNodesChange,
+            onEdgesChange: state.onEdgesChange,
+            onConnect: state.onConnect,
+         })),
+      );
+
    return (
       <ReactFlow
          fitView
