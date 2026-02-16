@@ -9,15 +9,23 @@ import type {
 //! Defining out custom types for each custom node --> we are defining each Node's data points
 // - The colornode "data" field will only have a "color"
 // - The TextNode "data" field will only have a "label"
-type ColorNodeData = {
+export type ColorNodeData = {
    color: string;
    type: 'color';
 };
 
-type TextNodeData = {
+//@ defining the actual node type:
+// overwriting the data generaic --> also the "type"
+export type ColorNode = Node<ColorNodeData, 'color'>;
+
+export type TextNodeData = {
    label: string;
    type: 'text';
 };
+
+export type TextNode = Node<TextNodeData, 'text'>;
+
+// ----------------------------------------------------
 
 //! We are creating the Union Type "AppNodeData" --> we pass into the ReactFlow's Node type as a generic
 type AppNodeData = ColorNodeData | TextNodeData;
@@ -42,4 +50,6 @@ export interface NodeStore {
    onConnect: OnConnect;
    setNodes: (nodes: AppNode[]) => void;
    setEdges: (edges: Edge[]) => void;
+   //@ Adding new function --> this is going to be called manually when we try to update the color
+   updateNodeColor: (id: string, data: Partial<AppNodeData>) => void;
 }

@@ -11,11 +11,13 @@ const initialNodes: AppNode[] = [
    {
       id: 'n1',
       position: { x: 0, y: 0 },
+      type: 'text',
       data: { label: 'Node 1', type: 'text' },
    },
    {
       id: 'n2',
       position: { x: 0, y: 100 },
+      type: 'color',
       data: { color: 'blue', type: 'color' },
    },
 ];
@@ -51,6 +53,27 @@ export const useFlowStore = create<NodeStore>()(
       },
       setEdges: (edges) => {
          set({ edges });
+      },
+
+      //@ defining the updateNodeColor function --> called manually within the ColorNode component
+      // takes in an ID --> helps find the node that we want to update
+      // takes in data --> overwrites the data property of that node (state)
+      // map() --> go over all the nodes in the state --> find the one that matches the ID --> change the data to the color
+      // map() returns a new list automatically --> you must return node to "input" that node into the new list
+      updateNodeColor: (id, data) => {
+         set({
+            nodes: get().nodes.map((node) => {
+               if (node.id === id) {
+                  // We found our node! Create a NEW NODE object.
+                  // We spread the old node properties, but overwrite the 'data'
+                  return {
+                     ...node,
+                     data: { ...node.data, ...data },
+                  } as AppNode;
+               }
+               return node;
+            }),
+         });
       },
    })),
 );
