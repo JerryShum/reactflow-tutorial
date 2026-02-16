@@ -10,21 +10,6 @@ import '@xyflow/react/dist/style.css';
 
 import type { AppNode } from './types';
 
-const initialNodes: AppNode[] = [
-   {
-      id: 'n1',
-      position: { x: 0, y: 0 },
-      data: { label: 'Node 1', type: 'text' },
-   },
-   {
-      id: 'n2',
-      position: { x: 0, y: 100 },
-      data: { color: 'blue', type: 'color' },
-   },
-];
-
-const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2' }];
-
 function Flow() {
    return (
       <ReactFlow fitView nodes={initialNodes} edges={initialEdges}>
