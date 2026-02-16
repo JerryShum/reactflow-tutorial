@@ -5,14 +5,24 @@ import {
    ReactFlow,
    ReactFlowProvider,
 } from '@xyflow/react';
-import type { Edge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-
-import type { AppNode } from './types';
+import { useFlowStore } from './store';
 
 function Flow() {
+   const nodes = useFlowStore((state) => state.nodes);
+   const edges = useFlowStore((state) => state.edges);
+   const onNodesChange = useFlowStore((state) => state.onNodesChange);
+   const onEdgesChange = useFlowStore((state) => state.onEdgesChange);
+   const onConnect = useFlowStore((state) => state.onConnect);
    return (
-      <ReactFlow fitView nodes={initialNodes} edges={initialEdges}>
+      <ReactFlow
+         fitView
+         nodes={nodes}
+         edges={edges}
+         onNodesChange={onNodesChange}
+         onEdgesChange={onEdgesChange}
+         onConnect={onConnect}
+      >
          <Background variant={BackgroundVariant.Dots} />
          <Controls />
       </ReactFlow>
