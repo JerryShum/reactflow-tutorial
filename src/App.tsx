@@ -7,6 +7,13 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useFlowStore } from './store';
+import ColorNode from './components/ColorNode';
+import TextNode from './components/TextNode';
+
+const nodeTypes = {
+   color: ColorNode,
+   text: TextNode,
+};
 
 function Flow() {
    const nodes = useFlowStore((state) => state.nodes);
@@ -22,6 +29,7 @@ function Flow() {
          onNodesChange={onNodesChange}
          onEdgesChange={onEdgesChange}
          onConnect={onConnect}
+         nodeTypes={nodeTypes}
       >
          <Background variant={BackgroundVariant.Dots} />
          <Controls />
