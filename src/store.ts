@@ -6,6 +6,7 @@ import { applyEdgeChanges, applyNodeChanges, addEdge } from '@xyflow/react';
 import type { Edge } from '@xyflow/react';
 
 import type { NodeStore, AppNode } from './types';
+import { nodeBlueprints } from './blueprint';
 
 const initialNodes: AppNode[] = [
    {
@@ -76,14 +77,15 @@ export const useFlowStore = create<NodeStore>()(
          });
       },
       addNode: (type) => {
+         //@ Creating a blueprint object from blueprint.ts (based on type)
+         // we can then take that object that we got and use its properties when we need.
+         const blueprint = nodeBlueprints[type];
+
          const newNode = {
             id: crypto.randomUUID(),
             type,
             position: { x: 100, y: 100 },
-            data:
-               type === 'color'
-                  ? { color: '#ff0000', type: 'color' }
-                  : { label: 'New Node', type: 'text' },
+            data: blueprint.defaultData,
          } as AppNode;
 
          set({

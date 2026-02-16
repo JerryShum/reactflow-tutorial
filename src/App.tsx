@@ -11,6 +11,7 @@ import { useFlowStore } from './store';
 import ColorNode from './components/ColorNode';
 import TextNode from './components/TextNode';
 import { useShallow } from 'zustand/shallow';
+import { nodeBlueprints } from './blueprint';
 
 const nodeTypes = {
    color: ColorNode,
@@ -55,48 +56,14 @@ function Flow() {
                marginBottom: '20px',
             }}
          >
-            <button
-               style={{
-                  padding: '8px 16px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  background: '#f4f4f5',
-                  cursor: 'pointer',
-                  fontWeight: 500,
-                  transition: 'background 0.2s',
-               }}
-               onClick={() => addNode('text')}
-            >
-               + Text Node
-            </button>
-            <button
-               style={{
-                  padding: '8px 16px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  background: '#f4f4f5',
-                  cursor: 'pointer',
-                  fontWeight: 500,
-                  transition: 'background 0.2s',
-               }}
-               onClick={() => addNode('color')}
-            >
-               + Color Node
-            </button>
-            <button
-               style={{
-                  padding: '8px 16px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  background: '#f4f4f5',
-                  cursor: 'pointer',
-                  fontWeight: 500,
-                  transition: 'background 0.2s',
-               }}
-               onClick={() => addNode('123')}
-            >
-               + 123 Node
-            </button>
+            {Object.entries(nodeBlueprints).map(([type, blueprint]) => (
+               <button
+                  key={type}
+                  onClick={() => addNode(type as 'color' | 'text')}
+               >
+                  {blueprint.label}
+               </button>
+            ))}
          </Panel>
       </ReactFlow>
    );
