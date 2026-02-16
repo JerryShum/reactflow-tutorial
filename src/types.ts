@@ -1,4 +1,10 @@
-import type { Edge, Node } from '@xyflow/react';
+import type {
+   Edge,
+   Node,
+   OnConnect,
+   OnEdgesChange,
+   OnNodesChange,
+} from '@xyflow/react';
 
 //! Defining out custom types for each custom node --> we are defining each Node's data points
 // - The colornode "data" field will only have a "color"
@@ -30,4 +36,10 @@ export type AppNode = Node<AppNodeData>;
 export interface NodeStore {
    nodes: AppNode[];
    edges: Edge[];
+   // On onNodesChange --> event fired by reactflow --> what we are defining here is that the nodes that change MUST BE AppNodes
+   onNodesChange: OnNodesChange<AppNode>;
+   onEdgesChange: OnEdgesChange;
+   onConnect: OnConnect;
+   setNodes: (nodes: AppNode[]) => void;
+   setEdges: (edges: Edge[]) => void;
 }
