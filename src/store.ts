@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 import { applyEdgeChanges, applyNodeChanges, addEdge } from '@xyflow/react';
 
@@ -21,36 +22,38 @@ const initialNodes: AppNode[] = [
 
 const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2' }];
 
-export const useFlowStore = create<NodeStore>((set, get) => ({
-   nodes: initialNodes,
-   edges: initialEdges,
+export const useFlowStore = create<NodeStore>()(
+   devtools((set, get) => ({
+      nodes: initialNodes,
+      edges: initialEdges,
 
-   //! onNodesChange --> this is triggered via any movement or change to a node
-   // We know that these MUST be appnodes
-   // set --> we are setting a NEW state when any node changes --> we are setting a new "nodes" state and overwriting the old one
-   // applyNodeChanges automatically retrieves the changes that happened and APPLIES them to the existing nodes state --> get() retrieves the current state
-   onNodesChange: (changes) => {
-      set({
-         nodes: applyNodeChanges(changes, get().nodes),
-      });
-   },
-   onEdgesChange: (changes) => {
-      set({
-         edges: applyEdgeChanges(changes, get().edges),
-      });
-   },
-   onConnect: (connection) => {
-      set({
-         edges: addEdge(connection, get().edges),
-      });
-   },
-   setNodes: (nodes) => {
-      set({ nodes });
-   },
-   setEdges: (edges) => {
-      set({ edges });
-   },
-}));
+      //! onNodesChange --> this is triggered via any movement or change to a node
+      // We know that these MUST be appnodes
+      // set --> we are setting a NEW state when any node changes --> we are setting a new "nodes" state and overwriting the old one
+      // applyNodeChanges automatically retrieves the changes that happened and APPLIES them to the existing nodes state --> get() retrieves the current state
+      onNodesChange: (changes) => {
+         set({
+            nodes: applyNodeChanges(changes, get().nodes),
+         });
+      },
+      onEdgesChange: (changes) => {
+         set({
+            edges: applyEdgeChanges(changes, get().edges),
+         });
+      },
+      onConnect: (connection) => {
+         set({
+            edges: addEdge(connection, get().edges),
+         });
+      },
+      setNodes: (nodes) => {
+         set({ nodes });
+      },
+      setEdges: (edges) => {
+         set({ edges });
+      },
+   })),
+);
 
 //@ The ReactFlow Sequence of Events:
 // User Action: You drag a node on the screen.
