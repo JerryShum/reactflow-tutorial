@@ -75,6 +75,21 @@ export const useFlowStore = create<NodeStore>()(
             }),
          });
       },
+      addNode: (type) => {
+         const newNode = {
+            id: crypto.randomUUID(),
+            type,
+            position: { x: 100, y: 100 },
+            data:
+               type === 'color'
+                  ? { color: '#ff0000', type: 'color' }
+                  : { label: 'New Node', type: 'text' },
+         } as AppNode;
+
+         set({
+            nodes: [...get().nodes, newNode],
+         });
+      },
    })),
 );
 

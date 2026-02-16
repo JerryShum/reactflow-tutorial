@@ -52,4 +52,6 @@ export interface NodeStore {
    setEdges: (edges: Edge[]) => void;
    //@ Adding new function --> this is going to be called manually when we try to update the color
    updateNodeColor: (id: string, data: Partial<AppNodeData>) => void;
+   //# Add new function --> add nodes:
+   addNode: (type: 'color' | 'text') => void;
 }
